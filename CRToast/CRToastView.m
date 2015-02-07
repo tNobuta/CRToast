@@ -163,6 +163,10 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                                                   self.toast.showActivityIndicator,
                                                                   self.toast.activityViewAlignment);
     
+    if (!showingImage && !self.toast.showActivityIndicator) {
+        x = ([UIScreen mainScreen].bounds.size.width - width) / 2;
+    }
+    
     if (self.toast.subtitleText == nil) {
         self.label.frame = CGRectMake(x,
                                       statusBarYOffset,
