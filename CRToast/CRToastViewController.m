@@ -52,6 +52,7 @@ UIStatusBarStyle statusBarStyle;
 
 - (void)loadView {
     self.view = [[CRToastContainerView alloc] init];
+    self.view.userInteractionEnabled = YES;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {

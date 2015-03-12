@@ -328,6 +328,9 @@ extern NSString *const kCRToastActivityIndicatorViewStyleKey;
  */
 extern NSString *const kCRToastActivityIndicatorAlignmentKey;
 
+extern NSString *const kCRToastShowActionView;
+extern NSString *const kCRToastActionView;
+
 /**
  An Array of Interaction Responders for the Notification. Expects type `NSArray` full of `CRToastInteractionResponders`
  */
@@ -427,6 +430,8 @@ extern NSString *const kCRToastCaptureDefaultWindowKey;
 @property (nonatomic, readonly) CRToastAccessoryViewAlignment activityViewAlignment;
 @property (nonatomic, readonly) BOOL showActivityIndicator;
 @property (nonatomic, readonly) BOOL forceUserInteraction;
+@property (nonatomic) BOOL showActionView;
+@property (nonatomic) UIView *actionView;
 
 @property (nonatomic, readonly) CGVector inGravityDirection;
 @property (nonatomic, readonly) CGVector outGravityDirection;

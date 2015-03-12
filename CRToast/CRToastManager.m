@@ -294,7 +294,7 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
     self.statusBarView = statusBarView;
     
     for (UIView *subview in _notificationWindow.rootViewController.view.subviews) {
-        subview.userInteractionEnabled = NO;
+        subview.userInteractionEnabled = YES;
     }
     
     _notificationWindow.rootViewController.view.userInteractionEnabled = YES;

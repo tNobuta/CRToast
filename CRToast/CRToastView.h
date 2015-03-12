@@ -21,6 +21,8 @@
  */
 CGFloat CRContentWidthForAccessoryViewsWithAlignments(CGFloat fullContentWidth, CGFloat fullContentHeight, BOOL showingImage, CRToastAccessoryViewAlignment imageAlignment, BOOL showingActivityIndicator, CRToastAccessoryViewAlignment activityIndicatorAlignment);
 
+CGFloat CRContentWidthForActionView(CGFloat fullContentWidth, CGFloat fullContentHeight, UIView *actionView);
+
 @interface CRToastView : UIView
 @property (nonatomic, strong) CRToast *toast;
 
@@ -29,5 +31,6 @@ CGFloat CRContentWidthForAccessoryViewsWithAlignments(CGFloat fullContentWidth, 
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UILabel *subtitleLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIView *actionView;
 
 @end

@@ -219,6 +219,8 @@ NSString *const kCRToastImageAlignmentKey                   = @"kCRToastImageAli
 NSString *const kCRToastShowActivityIndicatorKey            = @"kCRToastShowActivityIndicatorKey";
 NSString *const kCRToastActivityIndicatorViewStyleKey       = @"kCRToastActivityIndicatorViewStyleKey";
 NSString *const kCRToastActivityIndicatorAlignmentKey       = @"kCRToastActivityIndicatorAlignmentKey";
+NSString *const kCRToastShowActionView                      = @"kCRToastShowActionView";
+NSString *const kCRToastActionView                          = @"kCRToastActionView";
 
 NSString *const kCRToastInteractionRespondersKey            = @"kCRToastInteractionRespondersKey";
 NSString *const kCRToastForceUserInteractionKey             = @"kCRToastForceUserInteractionKey";
@@ -271,6 +273,7 @@ static UIImage  *                    kCRImageDefault                        = ni
 static UIViewContentMode             kCRImageContentModeDefault             = UIViewContentModeCenter;
 static CRToastAccessoryViewAlignment kCRImageAlignmentDefault               = CRToastAccessoryViewAlignmentLeft;
 static BOOL                          kCRShowActivityIndicatorDefault        = NO;
+static BOOL                          kCRShowActionViewDefault               = NO;
 static UIActivityIndicatorViewStyle  kCRActivityIndicatorViewStyleDefault   = UIActivityIndicatorViewStyleWhite;
 static CRToastAccessoryViewAlignment kCRActivityIndicatorAlignmentDefault   = CRToastAccessoryViewAlignmentLeft;
 
@@ -352,7 +355,9 @@ static NSDictionary *                kCRToastKeyClassMap                    = ni
                                 
                                 kCRToastAutorotateKey                       : NSStringFromClass([@(kCRAutoRotateDefault) class]),
                                 
-                                kCRToastCaptureDefaultWindowKey             : NSStringFromClass([@(kCRCaptureDefaultWindowDefault) class])
+                                kCRToastCaptureDefaultWindowKey             : NSStringFromClass([@(kCRCaptureDefaultWindowDefault) class]),
+                                kCRToastShowActionView                      : NSStringFromClass([NSNumber class]),
+                                kCRToastActionView                          : NSStringFromClass([UIView class])
                                 };
     }
 }
@@ -364,6 +369,10 @@ static NSDictionary *                kCRToastKeyClassMap                    = ni
     notification.state = CRToastStateWaiting;
     notification.uuid = [NSUUID UUID];
     notification.appearance = appearance;
+    notification.showActionView = options[kCRToastShowActionView] ? [options[kCRToastShowActionView] boolValue] : NO;
+    if (notification.showActionView) {
+        notification.actionView = options[kCRToastActionView];
+    }
 	
     return notification;
 }
@@ -674,12 +683,21 @@ static NSDictionary *                kCRToastKeyClassMap                    = ni
 - (BOOL)showActivityIndicator {
     return _options[kCRToastShowActivityIndicatorKey] ? [_options[kCRToastShowActivityIndicatorKey] boolValue] : kCRShowActivityIndicatorDefault;
 }
+
 - (UIActivityIndicatorViewStyle)activityIndicatorViewStyle {
     return _options[kCRToastActivityIndicatorViewStyleKey] ? [_options[kCRToastActivityIndicatorViewStyleKey] integerValue] : kCRActivityIndicatorViewStyleDefault;
 }
 
 - (CRToastAccessoryViewAlignment)activityViewAlignment {
     return _options[kCRToastActivityIndicatorAlignmentKey] ? [_options[kCRToastActivityIndicatorAlignmentKey] integerValue] : kCRActivityIndicatorAlignmentDefault;
+}
+
+- (BOOL)showActionView {
+    return _options[kCRToastShowActionView] ? [_options[kCRToastShowActionView] boolValue] : kCRShowActionViewDefault;
+}
+
+- (UIView *)actionView {
+    return _options[kCRToastActionView];
 }
 
 - (NSInteger)maxNumberOfLines {

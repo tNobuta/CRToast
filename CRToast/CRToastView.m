@@ -69,6 +69,14 @@ CGFloat CRContentWidthForAccessoryViewsWithAlignments(CGFloat fullContentWidth, 
     return width;
 }
 
+CGFloat CRContentWidthForActionView(CGFloat fullContentWidth, CGFloat fullContentHeight, UIView *actionView) {
+    CGFloat width = fullContentWidth;
+    
+    width -= (actionView.frame.size.width + 20);
+    
+    return width;
+}
+
 static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAlignment alignment, CGFloat viewWidth, CGFloat contentWidth) {
     CGFloat center = 0;
     CGFloat offset = viewWidth / 2;
@@ -154,14 +162,28 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
         [self bringSubviewToFront:self.activityIndicator];
     }
     
+    if (self.toast.showActionView && _actionView) {
+        _actionView.frame = CGRectMake(contentFrame.size.width - _actionView.frame.size.width - 20, (contentFrame.size.height - _actionView.frame.size.height) / 2, _actionView.frame.size.width, _actionView.frame.size.height);
+        _actionView.userInteractionEnabled = YES;
+        [self addSubview:_actionView];
+        [self bringSubviewToFront:_actionView];
+        x = MAX(CRContentXOffsetForViewAlignmentAndWidth(CRToastAccessoryViewAlignmentRight, CGRectGetHeight(contentFrame)), x);
+    }
+    
     BOOL showingImage = imageSize.width > 0;
     
-    CGFloat width = CRContentWidthForAccessoryViewsWithAlignments(CGRectGetWidth(contentFrame),
-                                                                  CGRectGetHeight(contentFrame),
-                                                                  showingImage,
-                                                                  self.toast.imageAlignment,
-                                                                  self.toast.showActivityIndicator,
-                                                                  self.toast.activityViewAlignment);
+    CGFloat width = 0;
+    if (!self.toast.showActionView) {
+        width = CRContentWidthForAccessoryViewsWithAlignments(CGRectGetWidth(contentFrame),
+                                                                      CGRectGetHeight(contentFrame),
+                                                                      showingImage,
+                                                                      self.toast.imageAlignment,
+                                                                      self.toast.showActivityIndicator,
+                                                                      self.toast.activityViewAlignment);
+    }else {
+        width = CRContentWidthForActionView(CGRectGetWidth(contentFrame), CGRectGetHeight(contentFrame), _actionView);
+    }
+    
     
     if (!showingImage && !self.toast.showActivityIndicator) {
         x = ([UIScreen mainScreen].bounds.size.width - width) / 2;
@@ -223,6 +245,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
     _imageView.image = toast.image;
     _imageView.contentMode = toast.imageContentMode;
     _activityIndicator.activityIndicatorViewStyle = toast.activityIndicatorViewStyle;
+    _actionView = toast.actionView;
     self.backgroundColor = toast.backgroundColor;
     
     if (toast.backgroundView) {
